@@ -1,8 +1,8 @@
-"""initial tables
+"""...
 
-Revision ID: c7c6122ae6b1
+Revision ID: 9256b5607fb5
 Revises: 
-Create Date: 2025-05-12 11:45:50.507848
+Create Date: 2025-05-22 13:23:53.535142
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'c7c6122ae6b1'
+revision: str = '9256b5607fb5'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,6 +25,7 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('ssn', sa.String(), nullable=False),
+    sa.Column('email', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('ssn')
     )
@@ -33,6 +34,7 @@ def upgrade() -> None:
     sa.Column('number', sa.String(), nullable=True),
     sa.Column('balance', sa.Numeric(), nullable=False),
     sa.Column('customer_id', sa.Integer(), nullable=True),
+    sa.CheckConstraint('balance >= 0', name='non_negative_balance'),
     sa.ForeignKeyConstraint(['customer_id'], ['customers.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('number')
